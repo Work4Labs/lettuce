@@ -69,7 +69,7 @@ def enable(filename=None):
 
         if not step.ran:
             skip = doc.createElement("skipped")
-            why = "ParentStepUndefined()" if step.has_definition else "UndefinedStep(%s)" % step.sentence
+            why = "ParentStepNotRun()" if step.has_definition else "UndefinedStep(%s)" % step.sentence
             skip.setAttribute("type", why)
             tc.appendChild(skip)
 
