@@ -118,8 +118,8 @@ def extract_step_data(step):
     step_data = {
         "name": step.sentence,
         "meta": {
-            "success": step.passed,
-            "failed": step.failed,
+            "success": bool(step.passed),
+            "failed": bool(step.failed),
             "skipped": not step.passed and not step.failed and step.has_definition,
             "undefined": not step.has_definition,
         },
