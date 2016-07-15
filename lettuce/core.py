@@ -746,6 +746,7 @@ class Scenario(object):
 
             return ScenarioResult(
                 self,
+                all_steps,
                 steps_passed,
                 steps_failed,
                 steps_skipped,
@@ -1255,19 +1256,19 @@ class FeatureResult(object):
 
 class ScenarioResult(object):
     """Object that holds results of each step ran from within a scenario"""
-    def __init__(self, scenario, steps_passed, steps_failed, steps_skipped,
+    def __init__(self, scenario, all_steps, steps_passed, steps_failed, steps_skipped,
                  steps_undefined, outline=None):
 
         self.scenario = scenario
 
+        self.all_steps = all_steps
         self.steps_passed = steps_passed
         self.steps_failed = steps_failed
         self.steps_skipped = steps_skipped
         self.steps_undefined = steps_undefined
         self.outline = outline
 
-        all_lists = [steps_passed + steps_skipped + steps_undefined + steps_failed]
-        self.total_steps = sum(map(len, all_lists))
+        self.total_steps = len(all_steps)
 
     @property
     def passed(self):
