@@ -60,7 +60,30 @@ def extract_feature_data(feature_result):
     return {
         "name": feature_result.feature.name,
         "meta": meta,
-        "scenarios": scenarios
+        "scenarios": scenarios,
+        "background": extract_background_data(feature_result.feature.background)
+    }
+
+def extract_background_data(background):
+    """
+    Extract data from a `Background` instance.
+
+    :param background:                   a `Background` instance, possibly None
+    :return:                             a Python dictionary
+    """
+    if not background:
+        return None
+
+    step_data = [extract_step_data(step) for step in background.steps]
+    return {
+        "meta": {
+            "total": len(background.steps),
+            "success": sum([s["meta"]["success"] for s in step_data]),
+            "failures": sum([s["meta"]["failed"] for s in step_data]),
+            "skipped": sum([s["meta"]["skipped"] for s in step_data]),
+            "undefined": sum([s["meta"]["undefined"] for s in step_data]),
+        },
+        "steps": step_data
     }
 
 
