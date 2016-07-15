@@ -1329,6 +1329,9 @@ class TotalResult(object):
     def scenarios_passed(self):
         return len([result for result in self.scenario_results if result.passed])
 
+    @property
+    def is_success(self):
+        return not bool(self.failed_scenario_locations)
 
 
 class SummaryTotalResults(TotalResult):
