@@ -125,11 +125,20 @@ OUTPUTS = {
     "commented_feature": {
         'features': [
             {'meta': {
-                'failures': 0,
-                'skipped': 0,
-                'success': 1,
-                'total': 1,
-                'undefined': 0
+                'steps': {
+                    'failures': 0,
+                    'skipped': 0,
+                    'success': 1,
+                    'total': 1,
+                    'undefined': 0
+                },
+                'scenarios': {
+                    'failures': 0,
+                    'skipped': 0,
+                    'success': 1,
+                    'total': 1,
+                    'undefined': 0
+                }
             },
            'name': u'one commented scenario',
            "background": None,
@@ -179,84 +188,93 @@ OUTPUTS = {
     'error_traceback': {
         "meta": {
             "scenarios": {
-                "failures": 1, 
-                "total": 2, 
+                "failures": 1,
+                "total": 2,
                 "success": 1
-            }, 
-            "is_success": False, 
+            },
+            "is_success": False,
             "steps": {
-                "failures": 1, 
-                "skipped": 0, 
-                "total": 2, 
-                "undefined": 0, 
+                "failures": 1,
+                "skipped": 0,
+                "total": 2,
+                "undefined": 0,
                 "success": 1
-            }, 
+            },
             "features": {
-                "failures": 1, 
-                "total": 1, 
+                "failures": 1,
+                "total": 1,
                 "success": 0
             }
-        }, 
+        },
         "features": [
             {
                 "scenarios": [
                     {
                         "meta": {
-                            "failures": 0, 
-                            "skipped": 0, 
-                            "total": 1, 
-                            "undefined": 0, 
+                            "failures": 0,
+                            "skipped": 0,
+                            "total": 1,
+                            "undefined": 0,
                             "success": 1
-                        }, 
+                        },
                         "steps": [
                             {
-                                "failure": {}, 
+                                "failure": {},
                                 "meta": {
-                                    "failed": False, 
-                                    "skipped": False, 
-                                    "undefined": False, 
+                                    "failed": False,
+                                    "skipped": False,
+                                    "undefined": False,
                                     "success": True
-                                }, 
+                                },
                                 "name": "Given my step that passes"
                             }
-                        ], 
-                        "name": "It should pass", 
+                        ],
+                        "name": "It should pass",
                         "outline": None
-                    }, 
+                    },
                     {
                         "meta": {
-                            "failures": 1, 
-                            "skipped": 0, 
-                            "total": 1, 
-                            "undefined": 0, 
+                            "failures": 1,
+                            "skipped": 0,
+                            "total": 1,
+                            "undefined": 0,
                             "success": 0
-                        }, 
+                        },
                         "steps": [
                             {
                                 "failure": {
-                                    "exception": "RuntimeError()", 
+                                    "exception": "RuntimeError()",
                                     "traceback": "Traceback (most recent call last):\n  File \"{path}/lettuce/core.py\", line 144, in __call__\n    ret = self.function(self.step, *args, **kw)\n  File \"{path}/tests/functional/output_features/error_traceback/error_traceback_steps.py\", line 10, in given_my_step_that_blows_a_exception\n    raise RuntimeError\nRuntimeError\n".format(path=BASE_PATH)
-                                }, 
+                                },
                                 "meta": {
-                                    "failed": True, 
-                                    "skipped": False, 
-                                    "undefined": False, 
+                                    "failed": True,
+                                    "skipped": False,
+                                    "undefined": False,
                                     "success": False
-                                }, 
+                                },
                                 "name": "Given my step that blows a exception"
                             }
-                        ], 
-                        "name": "It should raise an exception different of AssertionError", 
+                        ],
+                        "name": "It should raise an exception different of AssertionError",
                         "outline": None
                     }
-                ], 
-                "meta": {
-                    "failures": 1, 
-                    "skipped": 0, 
-                    "total": 2, 
-                    "undefined": 0, 
-                    "success": 1
-                }, 
+                ],
+                'meta': {
+                    'steps': {
+                        "failures": 1,
+                        "skipped": 0,
+                        "total": 2,
+                        "undefined": 0,
+                        "success": 1
+                    },
+                    'scenarios': {
+                        "failures": 1,
+                        "skipped": 0,
+                        "total": 2,
+                        "undefined": 0,
+                        "success": 1
+                    }
+                },
                 "name": "Error traceback for output testing",
                 "background": None
             }
@@ -265,84 +283,93 @@ OUTPUTS = {
     'unicode_traceback': {
         "meta": {
             "scenarios": {
-                "failures": 1, 
-                "total": 2, 
+                "failures": 1,
+                "total": 2,
                 "success": 1
-            }, 
-            "is_success": False, 
+            },
+            "is_success": False,
             "steps": {
-                "failures": 1, 
-                "skipped": 0, 
-                "total": 2, 
-                "undefined": 0, 
+                "failures": 1,
+                "skipped": 0,
+                "total": 2,
+                "undefined": 0,
                 "success": 1
-            }, 
+            },
             "features": {
-                "failures": 1, 
-                "total": 1, 
+                "failures": 1,
+                "total": 1,
                 "success": 0
             }
-        }, 
+        },
         "features": [
             {
                 "scenarios": [
                     {
                         "meta": {
-                            "failures": 0, 
-                            "skipped": 0, 
-                            "total": 1, 
-                            "undefined": 0, 
+                            "failures": 0,
+                            "skipped": 0,
+                            "total": 1,
+                            "undefined": 0,
                             "success": 1
-                        }, 
+                        },
                         "steps": [
                             {
-                                "failure": {}, 
+                                "failure": {},
                                 "meta": {
-                                    "failed": False, 
-                                    "skipped": False, 
-                                    "undefined": False, 
+                                    "failed": False,
+                                    "skipped": False,
+                                    "undefined": False,
                                     "success": True
-                                }, 
+                                },
                                 "name": "Given my dæmi that passes"
                             }
-                        ], 
-                        "name": "It should pass", 
+                        ],
+                        "name": "It should pass",
                         "outline": None
-                    }, 
+                    },
                     {
                         "meta": {
-                            "failures": 1, 
-                            "skipped": 0, 
-                            "total": 1, 
-                            "undefined": 0, 
+                            "failures": 1,
+                            "skipped": 0,
+                            "total": 1,
+                            "undefined": 0,
                             "success": 0
-                        }, 
+                        },
                         "steps": [
                             {
                                 "failure": {
-                                    "exception": "AssertionError()", 
+                                    "exception": "AssertionError()",
                                     "traceback": "Traceback (most recent call last):\n  File \"{path}/lettuce/core.py\", line 144, in __call__\n    ret = self.function(self.step, *args, **kw)\n  File \"{path}/tests/functional/output_features/unicode_traceback/unicode_traceback_steps.py\", line 10, in given_my_daemi_that_blows_a_exception\n    assert False\nAssertionError\n".format(path=BASE_PATH)
-                                }, 
+                                },
                                 "meta": {
-                                    "failed": True, 
-                                    "skipped": False, 
-                                    "undefined": False, 
+                                    "failed": True,
+                                    "skipped": False,
+                                    "undefined": False,
                                     "success": False
-                                }, 
+                                },
                                 "name": "Given my \"dæmi\" that blows an exception"
                             }
-                        ], 
-                        "name": "It should raise an exception different of AssertionError", 
+                        ],
+                        "name": "It should raise an exception different of AssertionError",
                         "outline": None
                     }
-                ], 
+                ],
                 "meta": {
-                    "failures": 1, 
-                    "skipped": 0, 
-                    "total": 2, 
-                    "undefined": 0, 
-                    "success": 1
-                }, 
+                    "steps": {
+                        "failures": 1,
+                        "skipped": 0,
+                        "total": 2,
+                        "undefined": 0,
+                        "success": 1
+                    },
+                    "scenarios": {
+                        "failures": 1,
+                        "skipped": 0,
+                        "total": 2,
+                        "undefined": 0,
+                        "success": 1
+                    }
+                },
                 "name": "Unicode characters in the error traceback",
                 "background": None
             }
@@ -351,58 +378,67 @@ OUTPUTS = {
     "missing_steps": {
         "meta": {
             "scenarios": {
-                "failures": 1, 
-                "total": 1, 
+                "failures": 1,
+                "total": 1,
                 "success": 0
-            }, 
-            "is_success": True, 
+            },
+            "is_success": True,
             "steps": {
-                "failures": 0, 
-                "skipped": 0, 
-                "total": 1, 
-                "undefined": 1, 
+                "failures": 0,
+                "skipped": 0,
+                "total": 1,
+                "undefined": 1,
                 "success": 0
-            }, 
+            },
             "features": {
-                "failures": 1, 
-                "total": 1, 
+                "failures": 1,
+                "total": 1,
                 "success": 0
             }
-        }, 
+        },
         "features": [
             {
                 "scenarios": [
                     {
                         "meta": {
-                            "failures": 0, 
-                            "skipped": 0, 
-                            "total": 1, 
-                            "undefined": 1, 
+                            "failures": 0,
+                            "skipped": 0,
+                            "total": 1,
+                            "undefined": 1,
                             "success": 0
-                        }, 
+                        },
                         "steps": [
                             {
-                                "failure": {}, 
+                                "failure": {},
                                 "meta": {
-                                    "failed": False, 
-                                    "skipped": False, 
-                                    "undefined": True, 
+                                    "failed": False,
+                                    "skipped": False,
+                                    "undefined": True,
                                     "success": False
-                                }, 
+                                },
                                 "name": "Given my sdfsdf sdfsdf sdfs df sdfsdf"
                             }
-                        ], 
-                        "name": "It should pass", 
+                        ],
+                        "name": "It should pass",
                         "outline": None
                     }
-                ], 
+                ],
                 "meta": {
-                    "failures": 0, 
-                    "skipped": 0, 
-                    "total": 1, 
-                    "undefined": 1, 
-                    "success": 0
-                }, 
+                    "steps": {
+                        "failures": 0,
+                        "skipped": 0,
+                        "total": 1,
+                        "undefined": 1,
+                        "success": 0
+                    },
+                    "scenarios": {
+                        "failures": 0,
+                        "skipped": 0,
+                        "total": 1,
+                        "undefined": 1,
+                        "success": 0
+                    }
+                },
                 "name": "Missing steps do not cause the xunit plugin to throw",
                 "background": None
             }
@@ -411,58 +447,67 @@ OUTPUTS = {
     'no_steps_defined': {
         "meta": {
             "scenarios": {
-                "failures": 1, 
-                "total": 1, 
+                "failures": 1,
+                "total": 1,
                 "success": 0
-            }, 
-            "is_success": True, 
+            },
+            "is_success": True,
             "steps": {
-                "failures": 0, 
-                "skipped": 0, 
-                "total": 1, 
-                "undefined": 1, 
+                "failures": 0,
+                "skipped": 0,
+                "total": 1,
+                "undefined": 1,
                 "success": 0
-            }, 
+            },
             "features": {
-                "failures": 1, 
-                "total": 1, 
+                "failures": 1,
+                "total": 1,
                 "success": 0
             }
-        }, 
+        },
         "features": [
             {
                 "scenarios": [
                     {
                         "meta": {
-                            "failures": 0, 
-                            "skipped": 0, 
-                            "total": 1, 
-                            "undefined": 1, 
+                            "failures": 0,
+                            "skipped": 0,
+                            "total": 1,
+                            "undefined": 1,
                             "success": 0
-                        }, 
+                        },
                         "steps": [
                             {
-                                "failure": {}, 
+                                "failure": {},
                                 "meta": {
-                                    "failed": False, 
-                                    "skipped": False, 
-                                    "undefined": True, 
+                                    "failed": False,
+                                    "skipped": False,
+                                    "undefined": True,
                                     "success": False
-                                }, 
+                                },
                                 "name": "Given I do nothing"
                             }
-                        ], 
-                        "name": "Do nothing", 
+                        ],
+                        "name": "Do nothing",
                         "outline": None
                     }
-                ], 
+                ],
                 "meta": {
-                    "failures": 0, 
-                    "skipped": 0, 
-                    "total": 1, 
-                    "undefined": 1, 
-                    "success": 0
-                }, 
+                    "steps": {
+                        "failures": 0,
+                        "skipped": 0,
+                        "total": 1,
+                        "undefined": 1,
+                        "success": 0
+                    },
+                    "scenarios": {
+                        "failures": 0,
+                        "skipped": 0,
+                        "total": 1,
+                        "undefined": 1,
+                        "success": 0
+                    }
+                },
                 "name": "Scenario with no steps",
                 "background": None
             }
@@ -471,109 +516,118 @@ OUTPUTS = {
     'xunit_unicode_and_bytestring_mixing': {
         "meta": {
             "scenarios": {
-                "failures": 1, 
-                "total": 3, 
+                "failures": 1,
+                "total": 3,
                 "success": 2
-            }, 
-            "is_success": False, 
+            },
+            "is_success": False,
             "steps": {
-                "failures": 1, 
-                "skipped": 0, 
-                "total": 3, 
-                "undefined": 0, 
+                "failures": 1,
+                "skipped": 0,
+                "total": 3,
+                "undefined": 0,
                 "success": 2
-            }, 
+            },
             "features": {
-                "failures": 1, 
-                "total": 1, 
+                "failures": 1,
+                "total": 1,
                 "success": 0
             }
-        }, 
+        },
         "features": [
             {
                 "scenarios": [
                     {
                         "meta": {
-                            "failures": 0, 
-                            "skipped": 0, 
-                            "total": 1, 
-                            "undefined": 0, 
+                            "failures": 0,
+                            "skipped": 0,
+                            "total": 1,
+                            "undefined": 0,
                             "success": 1
-                        }, 
+                        },
                         "steps": [
                             {
-                                "failure": {}, 
+                                "failure": {},
                                 "meta": {
-                                    "failed": False, 
-                                    "skipped": False, 
-                                    "undefined": False, 
+                                    "failed": False,
+                                    "skipped": False,
+                                    "undefined": False,
                                     "success": True
-                                }, 
+                                },
                                 "name": "Given non ascii characters \"Значение\" in outline"
                             }
-                        ], 
-                        "name": "It should pass", 
+                        ],
+                        "name": "It should pass",
                         "outline": {
                             "value": "Значение"
                         }
-                    }, 
+                    },
                     {
                         "meta": {
-                            "failures": 0, 
-                            "skipped": 0, 
-                            "total": 1, 
-                            "undefined": 0, 
+                            "failures": 0,
+                            "skipped": 0,
+                            "total": 1,
+                            "undefined": 0,
                             "success": 1
-                        }, 
+                        },
                         "steps": [
                             {
-                                "failure": {}, 
+                                "failure": {},
                                 "meta": {
-                                    "failed": False, 
-                                    "skipped": False, 
-                                    "undefined": False, 
+                                    "failed": False,
+                                    "skipped": False,
+                                    "undefined": False,
                                     "success": True
-                                }, 
+                                },
                                 "name": "Given non ascii characters \"\u0422\u0435\u0441\u0442\" in step"
                             }
-                        ], 
-                        "name": "It should pass too", 
+                        ],
+                        "name": "It should pass too",
                         "outline": None
-                    }, 
+                    },
                     {
                         "meta": {
-                            "failures": 1, 
-                            "skipped": 0, 
-                            "total": 1, 
-                            "undefined": 0, 
+                            "failures": 1,
+                            "skipped": 0,
+                            "total": 1,
+                            "undefined": 0,
                             "success": 0
-                        }, 
+                        },
                         "steps": [
                             {
                                 "failure": {
-                                    "exception": "Exception(u'\\u0422\\u0435\\u0441\\u0442',)", 
+                                    "exception": "Exception(u'\\u0422\\u0435\\u0441\\u0442',)",
                                     "traceback": "Traceback (most recent call last):\n  File \"{path}/lettuce/core.py\", line 144, in __call__\n    ret = self.function(self.step, *args, **kw)\n  File \"{path}/tests/functional/output_features/xunit_unicode_and_bytestring_mixing/xunit_unicode_and_bytestring_mixing_steps.py\", line 16, in raise_nonascii_chars\n    raise Exception(word)\nException: \\u0422\\u0435\\u0441\\u0442\n".format(path=BASE_PATH)
-                                }, 
+                                },
                                 "meta": {
-                                    "failed": True, 
-                                    "skipped": False, 
-                                    "undefined": False, 
+                                    "failed": True,
+                                    "skipped": False,
+                                    "undefined": False,
                                     "success": False
-                                }, 
+                                },
                                 "name": "Given non ascii characters \"\u0422\u0435\u0441\u0442\" in exception"
                             }
-                        ], 
-                        "name": "Exception should not raise an UnicodeDecodeError", 
+                        ],
+                        "name": "Exception should not raise an UnicodeDecodeError",
                         "outline": None
                     }
-                ], 
+                ],
                 "meta": {
-                    "failures": 1, 
-                    "skipped": 0, 
-                    "total": 3, 
-                    "undefined": 0, 
-                    "success": 2
-                }, 
+                    "steps": {
+                        "failures": 1,
+                        "skipped": 0,
+                        "total": 3,
+                        "undefined": 0,
+                        "success": 2
+                    },
+                    "scenarios": {
+                        "failures": 1,
+                        "skipped": 0,
+                        "total": 3,
+                        "undefined": 0,
+                        "success": 2
+                    }
+                },
                 "name": "Mixing of Unicode & bytestrings in xunit xml output",
                 "background": None
             }
@@ -582,58 +636,67 @@ OUTPUTS = {
     'background_simple': {
         "meta": {
             "scenarios": {
-                "failures": 0, 
-                "total": 1, 
+                "failures": 0,
+                "total": 1,
                 "success": 1
-            }, 
-            "is_success": True, 
+            },
+            "is_success": True,
             "steps": {
-                "failures": 0, 
-                "skipped": 0, 
-                "total": 1, 
-                "undefined": 0, 
+                "failures": 0,
+                "skipped": 0,
+                "total": 1,
+                "undefined": 0,
                 "success": 1
-            }, 
+            },
             "features": {
-                "failures": 0, 
-                "total": 1, 
+                "failures": 0,
+                "total": 1,
                 "success": 1
             }
-        }, 
+        },
         "features": [
             {
                 "scenarios": [
                     {
                         "meta": {
-                            "failures": 0, 
-                            "skipped": 0, 
-                            "total": 1, 
-                            "undefined": 0, 
+                            "failures": 0,
+                            "skipped": 0,
+                            "total": 1,
+                            "undefined": 0,
                             "success": 1
-                        }, 
+                        },
                         "steps": [
                             {
-                                "failure": {}, 
+                                "failure": {},
                                 "meta": {
-                                    "failed": False, 
-                                    "skipped": False, 
-                                    "undefined": False, 
+                                    "failed": False,
+                                    "skipped": False,
+                                    "undefined": False,
                                     "success": True
-                                }, 
+                                },
                                 "name": "Given the variable \"X\" is equal to 2"
                             }
-                        ], 
-                        "name": "multiplication changing the value", 
+                        ],
+                        "name": "multiplication changing the value",
                         "outline": None
                     }
-                ], 
+                ],
                 "meta": {
-                    "failures": 0, 
-                    "skipped": 0, 
-                    "total": 1, 
-                    "undefined": 0, 
-                    "success": 1
-                }, 
+                    "steps": {
+                        "failures": 0,
+                        "skipped": 0,
+                        "total": 1,
+                        "undefined": 0,
+                        "success": 1
+                    },
+                    "scenarios": {
+                        "failures": 0,
+                        "skipped": 0,
+                        "total": 1,
+                        "undefined": 0,
+                        "success": 1
+                    }
+                },
                 "name": "Simple and successful",
                 "background": {
                     "meta": {
@@ -645,13 +708,13 @@ OUTPUTS = {
                     },
                     "steps": [
                         {
-                            "failure": {}, 
+                            "failure": {},
                             "meta": {
-                                "failed": False, 
-                                "skipped": False, 
-                                "undefined": False, 
+                                "failed": False,
+                                "skipped": False,
+                                "undefined": False,
                                 "success": True
-                            }, 
+                            },
                             "name": "Given the variable \"X\" holds 2"
                         }
                     ]

@@ -42,20 +42,36 @@ def extract_feature_data(feature_result):
     """
     scenarios = []
     meta = {
-        "total": 0,
-        "success": 0,
-        "failures": 0,
-        "skipped": 0,
-        "undefined": 0
+        "steps": {
+            "total": 0,
+            "success": 0,
+            "failures": 0,
+            "skipped": 0,
+            "undefined": 0,
+        },
+        "scenarios": {
+            "total": 0,
+            "success": 0,
+            "failures": 0,
+            "skipped": 0,
+            "undefined": 0,
+        }
     }
     for scenario_result in feature_result.scenario_results:
         scenario_data = extract_scenario_data(scenario_result)
         scenarios.append(scenario_data)
-        meta["total"] += scenario_data["meta"]["total"]
-        meta["success"] += scenario_data["meta"]["success"]
-        meta["failures"] += scenario_data["meta"]["failures"]
-        meta["skipped"] += scenario_data["meta"]["skipped"]
-        meta["undefined"] += scenario_data["meta"]["undefined"]
+        # scenarios
+        meta["scenarios"]["total"] += 1 if scenario_data["meta"]["total"] else 0
+        meta["scenarios"]["success"] += 1 if scenario_data["meta"]["success"] else 0
+        meta["scenarios"]["failures"] += 1 if scenario_data["meta"]["failures"] else 0
+        meta["scenarios"]["skipped"] += 1 if scenario_data["meta"]["skipped"] else 0
+        meta["scenarios"]["undefined"] += 1 if scenario_data["meta"]["undefined"] else 0
+        # steps
+        meta["steps"]["total"] += scenario_data["meta"]["total"]
+        meta["steps"]["success"] += scenario_data["meta"]["success"]
+        meta["steps"]["failures"] += scenario_data["meta"]["failures"]
+        meta["steps"]["skipped"] += scenario_data["meta"]["skipped"]
+        meta["steps"]["undefined"] += scenario_data["meta"]["undefined"]
 
     return {
         "name": feature_result.feature.name,
