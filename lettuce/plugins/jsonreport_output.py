@@ -95,7 +95,7 @@ def extract_feature_data(feature_result):
         scenarios.append(scenario_data)
         # scenarios
         meta["scenarios"]["total"] += 1 if scenario_data["meta"]["total"] else 0
-        meta["scenarios"]["success"] += 1 if scenario_data["meta"]["success"] else 0
+        meta["scenarios"]["success"] += 1 if not scenario_data["meta"]["failures"] else 0
         meta["scenarios"]["failures"] += 1 if scenario_data["meta"]["failures"] else 0
         meta["scenarios"]["skipped"] += 1 if scenario_data["meta"]["skipped"] else 0
         meta["scenarios"]["undefined"] += 1 if scenario_data["meta"]["undefined"] else 0
