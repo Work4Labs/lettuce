@@ -141,6 +141,7 @@ OUTPUTS = {
                 }
             },
            'name': u'one commented scenario',
+           'duration': 0,
            "background": None,
            'scenarios': [
                 {'meta': {
@@ -151,6 +152,7 @@ OUTPUTS = {
                     'undefined': 0
                 },
                 'name': u'Do nothing',
+                'duration': 0,
                 'outline': None,
                 'steps': [
                     {'failure': {},
@@ -160,10 +162,12 @@ OUTPUTS = {
                         'success': True,
                         'undefined': False
                     },
+                    'duration': 0,
                     'name': u'Given I do nothing'
                 }]
             }]
         }],
+        'duration': 0,
         'meta': {
             'features': {
                 'failures': 0,
@@ -206,6 +210,7 @@ OUTPUTS = {
                 "success": 0
             }
         },
+        "duration": 0,
         "features": [
             {
                 "scenarios": [
@@ -226,9 +231,11 @@ OUTPUTS = {
                                     "undefined": False,
                                     "success": True
                                 },
+                                'duration': 0,
                                 "name": "Given my step that passes"
                             }
                         ],
+                        "duration": 0,
                         "name": "It should pass",
                         "outline": None
                     },
@@ -252,9 +259,11 @@ OUTPUTS = {
                                     "undefined": False,
                                     "success": False
                                 },
+                                'duration': 0,
                                 "name": "Given my step that blows a exception"
                             }
                         ],
+                        "duration": 0,
                         "name": "It should raise an exception different of AssertionError",
                         "outline": None
                     }
@@ -276,6 +285,7 @@ OUTPUTS = {
                     }
                 },
                 "name": "Error traceback for output testing",
+                "duration": 0,
                 "background": None
             }
         ]
@@ -301,6 +311,7 @@ OUTPUTS = {
                 "success": 0
             }
         },
+        "duration": 0,
         "features": [
             {
                 "scenarios": [
@@ -321,10 +332,12 @@ OUTPUTS = {
                                     "undefined": False,
                                     "success": True
                                 },
+                                'duration': 0,
                                 "name": "Given my dæmi that passes"
                             }
                         ],
                         "name": "It should pass",
+                        "duration": 0,
                         "outline": None
                     },
                     {
@@ -347,10 +360,12 @@ OUTPUTS = {
                                     "undefined": False,
                                     "success": False
                                 },
+                                'duration': 0,
                                 "name": "Given my \"dæmi\" that blows an exception"
                             }
                         ],
                         "name": "It should raise an exception different of AssertionError",
+                        "duration": 0,
                         "outline": None
                     }
                 ],
@@ -371,6 +386,7 @@ OUTPUTS = {
                     }
                 },
                 "name": "Unicode characters in the error traceback",
+                "duration": 0,
                 "background": None
             }
         ]
@@ -396,6 +412,7 @@ OUTPUTS = {
                 "success": 0
             }
         },
+        "duration": 0,
         "features": [
             {
                 "scenarios": [
@@ -416,10 +433,12 @@ OUTPUTS = {
                                     "undefined": True,
                                     "success": False
                                 },
+                                'duration': None,  # undefined
                                 "name": "Given my sdfsdf sdfsdf sdfs df sdfsdf"
                             }
                         ],
                         "name": "It should pass",
+                        "duration": 0,
                         "outline": None
                     }
                 ],
@@ -440,6 +459,7 @@ OUTPUTS = {
                     }
                 },
                 "name": "Missing steps do not cause the xunit plugin to throw",
+                "duration": 0,
                 "background": None
             }
         ]
@@ -465,6 +485,7 @@ OUTPUTS = {
                 "success": 0
             }
         },
+        "duration": 0,
         "features": [
             {
                 "scenarios": [
@@ -485,10 +506,12 @@ OUTPUTS = {
                                     "undefined": True,
                                     "success": False
                                 },
+                                'duration': 0,
                                 "name": "Given I do nothing"
                             }
                         ],
                         "name": "Do nothing",
+                        "duration": 0,
                         "outline": None
                     }
                 ],
@@ -509,6 +532,7 @@ OUTPUTS = {
                     }
                 },
                 "name": "Scenario with no steps",
+                "duration": 0,
                 "background": None
             }
         ]
@@ -534,6 +558,7 @@ OUTPUTS = {
                 "success": 0
             }
         },
+        "duration": 0,
         "features": [
             {
                 "scenarios": [
@@ -554,10 +579,12 @@ OUTPUTS = {
                                     "undefined": False,
                                     "success": True
                                 },
+                                'duration': 0,
                                 "name": "Given non ascii characters \"Значение\" in outline"
                             }
                         ],
                         "name": "It should pass",
+                        "duration": 0,
                         "outline": {
                             "value": "Значение"
                         }
@@ -579,10 +606,12 @@ OUTPUTS = {
                                     "undefined": False,
                                     "success": True
                                 },
+                                'duration': 0,
                                 "name": "Given non ascii characters \"\u0422\u0435\u0441\u0442\" in step"
                             }
                         ],
                         "name": "It should pass too",
+                        "duration": 0,
                         "outline": None
                     },
                     {
@@ -605,10 +634,12 @@ OUTPUTS = {
                                     "undefined": False,
                                     "success": False
                                 },
+                                'duration': 0,
                                 "name": "Given non ascii characters \"\u0422\u0435\u0441\u0442\" in exception"
                             }
                         ],
                         "name": "Exception should not raise an UnicodeDecodeError",
+                        "duration": 0,
                         "outline": None
                     }
                 ],
@@ -629,6 +660,7 @@ OUTPUTS = {
                     }
                 },
                 "name": "Mixing of Unicode & bytestrings in xunit xml output",
+                "duration": 0,
                 "background": None
             }
         ]
@@ -654,6 +686,7 @@ OUTPUTS = {
                 "success": 1
             }
         },
+        "duration": 0,
         "features": [
             {
                 "scenarios": [
@@ -674,10 +707,12 @@ OUTPUTS = {
                                     "undefined": False,
                                     "success": True
                                 },
+                                'duration': 0,
                                 "name": "Given the variable \"X\" is equal to 2"
                             }
                         ],
                         "name": "multiplication changing the value",
+                        "duration": 0,
                         "outline": None
                     }
                 ],
@@ -698,6 +733,7 @@ OUTPUTS = {
                     }
                 },
                 "name": "Simple and successful",
+                "duration": 0,
                 "background": {
                     "meta": {
                         "total": 1,
@@ -715,6 +751,7 @@ OUTPUTS = {
                                 "undefined": False,
                                 "success": True
                             },
+                            'duration': 0,
                             "name": "Given the variable \"X\" holds 2"
                         }
                     ]

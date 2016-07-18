@@ -1,10 +1,19 @@
+from datetime import datetime
 import json
 
-from lettuce.terrain import after
+from lettuce import world
+from lettuce.terrain import after, before
 
 
 def enable(filename=None):
     filename = filename or "lettucetests.json"
+
+    @before.all
+    def before_all():
+        """
+        Set `world._started` to `datetime.now()` to track total duration.
+        """
+        world._started = datetime.now()
 
     @after.all
     def generate_json_output(total):
@@ -12,9 +21,32 @@ def enable(filename=None):
         This callback is called after all the features are
         ran.
         """
+        world._stopped = datetime.now()
         total_dict = total_result_to_dict(total)
         with open(filename, "w") as handle:
             json.dump(total_dict, handle)
+
+    @before.each_feature
+    @before.each_scenario
+    @before.each_step
+    def before_each_element(*args):
+        """
+        Set `step._started`, `scenario._started` or `feature._started` to `datetime.now()`
+        to track step/scenario/feature duration.
+        """
+        element = args[0]
+        element._started = datetime.now()
+
+    @after.each_feature
+    @after.each_scenario
+    @after.each_step
+    def after_each_element(*args):
+        """
+        Set `step._stopped`, `scenario._stopped` or `feature._stopped` to `datetime.now()`
+        to track step/scenario/feature duration.
+        """
+        element = args[0]
+        element._stopped = datetime.now()
 
 
 def total_result_to_dict(total):
@@ -26,6 +58,7 @@ def total_result_to_dict(total):
     """
     return {
         "meta": extract_meta(total),
+        "duration": _get_duration(world),
         "features": [
             extract_feature_data(feature_result)
             for feature_result in total.feature_results
@@ -75,6 +108,7 @@ def extract_feature_data(feature_result):
 
     return {
         "name": feature_result.feature.name,
+        "duration": _get_duration(feature_result.feature),
         "meta": meta,
         "scenarios": scenarios,
         "background": extract_background_data(feature_result.feature.background)
@@ -112,6 +146,7 @@ def extract_scenario_data(scenario_result):
     """
     return {
         "name": scenario_result.scenario.name,
+        "duration": _get_duration(scenario_result.scenario),
         "outline": scenario_result.outline,
         "meta": {
             "total": scenario_result.total_steps,
@@ -133,6 +168,7 @@ def extract_step_data(step):
     """
     step_data = {
         "name": step.sentence,
+        "duration": _get_duration(step),
         "meta": {
             "success": bool(step.passed),
             "failed": bool(step.failed),
@@ -176,3 +212,12 @@ def extract_meta(total):
         },
         "is_success": total.is_success,
     }
+
+
+def _get_duration(element):
+    """
+    Return the duration of an element.
+
+    :param element:          either a step or a scenario or a feature
+    """
+    return (element._stopped - element._started).seconds if hasattr(element, '_started') else None
