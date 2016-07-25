@@ -16,18 +16,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import os
 import sys
+import traceback
 import django
 from distutils.version import StrictVersion
 from optparse import make_option
 from django.conf import settings
 from django.core.management import call_command
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.test.utils import setup_test_environment
 from django.test.utils import teardown_test_environment
 
 from lettuce import Runner
 from lettuce import registry
 from lettuce.core import SummaryTotalResults
+from lettuce.exceptions import LettuceRunnerError
 
 from lettuce.django import harvest_lettuces, get_server
 from lettuce.django.server import LettuceServerException
@@ -197,7 +199,7 @@ class Command(BaseCommand):
             try:
                 server.start()
             except LettuceServerException as e:
-                raise SystemExit(e)
+                raise CommandError("Couldn't start Django server: %s" % e)
 
         os.environ['SERVER_NAME'] = str(server.address)
         os.environ['SERVER_PORT'] = str(server.port)
@@ -233,12 +235,11 @@ class Command(BaseCommand):
                 results.append(result)
                 if not result or result.steps != result.steps_passed:
                     failed = True
-        except SystemExit as e:
-            failed = e.code
+        except LettuceRunnerError:
+            failed = True
 
         except Exception as e:
             failed = True
-            import traceback
             traceback.print_exc(e)
 
         finally:
@@ -252,4 +253,5 @@ class Command(BaseCommand):
             teardown_test_environment()
             server.stop(failed)
 
-            raise SystemExit(int(failed))
+            if failed:
+                raise CommandError("Lettuce tests failed.")
