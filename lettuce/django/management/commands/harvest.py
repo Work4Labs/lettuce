@@ -138,9 +138,6 @@ class Command(BaseCommand):
                               help="Don't colorize the command output.")
         return parser
 
-    def stopserver(self, failed=False):
-        raise SystemExit(int(failed))
-
     def get_paths(self, args, apps_to_run, apps_to_avoid):
         if args:
             for path, exists in zip(args, map(os.path.exists, args)):
