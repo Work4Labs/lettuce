@@ -140,18 +140,17 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         setup_test_environment()
 
-        verbosity = int(options.get('verbosity', 3))
-        no_color = int(options.get('no_color', False))
-        apps_to_run = tuple(options.get('apps', '').split(","))
-        apps_to_avoid = tuple(options.get('avoid_apps', '').split(","))
-        run_server = not options.get('no_server', False)
-        test_database = options.get('test_database', False)
-        smtp_queue = options.get('smtp_queue', False)
-        tags = options.get('tags', None)
-        failfast = options.get('failfast', False)
-        auto_pdb = options.get('auto_pdb', False)
-        threading = options.get('use_threading', True)
-        with_summary = options.get('summary_display', False)
+        verbosity = options['verbosity']
+        no_color = options.get('no_color', False)
+        apps_to_run = tuple(options['apps'].split(","))
+        apps_to_avoid = tuple(options['avoid_apps'].split(","))
+        run_server = not options['no_server']
+        test_database = options['test_database']
+        smtp_queue = options['smtp_queue']
+        tags = options['tags']
+        failfast = options['failfast']
+        auto_pdb = options['auto_pdb']
+        threading = options['use_threading']
 
         if test_database:
             migrate_south = getattr(settings, "SOUTH_TESTS_MIGRATE", True)
