@@ -34,10 +34,17 @@ from lettuce.django import harvest_lettuces, get_server
 from lettuce.django.server import LettuceServerException
 
 
+DJANGO_VERSION = StrictVersion(django.get_version())
+
+
 class Command(BaseCommand):
     help = u'Run lettuce tests all along installed apps'
     args = '[PATH to feature file or folder]'
-    requires_model_validation = requires_system_checks = False
+
+    if DJANGO_VERSION < StrictVersion('1.9'):
+        requires_model_validation = False
+    else:
+        requires_system_checks = False
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -116,7 +123,7 @@ class Command(BaseCommand):
             "--pdb", dest="auto_pdb", default=False, action="store_true",
             help='Launches an interactive debugger upon error'
         )
-        if StrictVersion(django.get_version()) < StrictVersion('1.7'):
+        if DJANGO_VERSION < StrictVersion('1.7'):
             # Django 1.7 introduces the --no-color flag. We must add the flag
             # to be compatible with older django versions
             parser.add_argument(
@@ -166,7 +173,7 @@ class Command(BaseCommand):
             self._testrunner.setup_test_environment()
             self._old_db_config = self._testrunner.setup_databases()
 
-            if StrictVersion(django.get_version()) < StrictVersion('1.7'):
+            if DJANGO_VERSION < StrictVersion('1.7'):
                 call_command('syncdb', verbosity=0, interactive=False,)
                 if migrate_south:
                    call_command('migrate', verbosity=0, interactive=False,)
