@@ -47,6 +47,7 @@ class Command(BaseCommand):
         requires_system_checks = False
 
     def add_arguments(self, parser):
+        parser.set_defaults(verbosity=3)  # default verbosity is 3
         parser.add_argument(
             '-a', '--apps', action='store', dest='apps', default='',
             help='Run ONLY the django apps that are listed here. Comma separated'
