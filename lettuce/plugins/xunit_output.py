@@ -16,8 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime, timedelta
-from lettuce.terrain import after
-from lettuce.terrain import before
+from lettuce.terrain import after, before
 from xml.dom import minidom
 from lettuce.strings import utf8_string
 
@@ -40,12 +39,12 @@ def total_seconds(td):
 
 
 def enable(filename=None):
-
+    start = datetime.now()  # approximation
     doc = minidom.Document()
     root = doc.createElement("testsuite")
     root.setAttribute("name", "lettuce")
     root.setAttribute("hostname", "localhost")
-    root.setAttribute("timestamp", datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
+    root.setAttribute("timestamp", start.strftime("%Y-%m-%dT%H:%M:%S"))
     output_filename = filename or "lettucetests.xml"
 
     @before.each_step
@@ -70,7 +69,8 @@ def enable(filename=None):
 
         if not step.ran:
             skip = doc.createElement("skipped")
-            skip.setAttribute("type", "UndefinedStep(%s)" % step.sentence)
+            why = "ParentStepNotRun()" if step.has_definition else "UndefinedStep(%s)" % step.sentence
+            skip.setAttribute("type", why)
             tc.appendChild(skip)
 
         if step.failed:
@@ -111,6 +111,6 @@ def enable(filename=None):
         root.setAttribute("tests", str(total.steps))
         root.setAttribute("failures", str(total.steps_failed))
         root.setAttribute("errors", '0')
-        root.setAttribute("time", '0')
+        root.setAttribute("time", str(total_seconds(datetime.now() - start)))
         doc.appendChild(root)
         write_xml_doc(output_filename, doc)
