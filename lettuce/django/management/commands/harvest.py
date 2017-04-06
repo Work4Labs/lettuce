@@ -124,6 +124,10 @@ class Command(BaseCommand):
             "--pdb", dest="auto_pdb", default=False, action="store_true",
             help='Launches an interactive debugger upon error'
         )
+        parser.add_argument(
+            "--merge-reports", dest="merge_reports", default=False, action="store_true",
+            help="Merge reports, useful when running features from several apps."
+        )
         if DJANGO_VERSION < StrictVersion('1.7'):
             # Django 1.7 introduces the --no-color flag. We must add the flag
             # to be compatible with older django versions
@@ -217,7 +221,7 @@ class Command(BaseCommand):
                                 subunit_filename=options.get('subunit_file'),
                                 jsonreport_filename=options.get('jsonreport_file'),
                                 tags=tags, failfast=failfast, auto_pdb=auto_pdb,
-                                smtp_queue=smtp_queue)
+                                smtp_queue=smtp_queue, merge_reports=options.get('merge_reports'))
 
                 result = runner.run()
                 if app_module is not None:

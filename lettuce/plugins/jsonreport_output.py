@@ -5,7 +5,7 @@ from lettuce import world
 from lettuce.terrain import after, before
 
 
-def enable(filename=None):
+def enable(filename=None, merge_reports=False):
     filename = filename or "lettucetests.json"
 
     @before.all
@@ -21,8 +21,16 @@ def enable(filename=None):
         This callback is called after all the features are
         ran.
         """
+        original_report = {}
+        if merge_reports:
+            try:
+                with open(filename) as handle:
+                    original_report = json.load(handle)
+            except IOError:
+                pass
         world._stopped = datetime.now()
         total_dict = total_result_to_dict(total)
+        total_dict = merge_report_dicts(total_dict, original_report)
         with open(filename, "w") as handle:
             json.dump(total_dict, handle)
 
@@ -226,3 +234,14 @@ def _get_duration(element):
     :param element:          either a step or a scenario or a feature
     """
     return (element._stopped - element._started).seconds if hasattr(element, '_started') else None
+
+
+def merge_report_dicts(new_report, original_report):
+    """
+    Merge report dictionaries, useful when running features from several apps.
+    """
+    if not original_report:
+        return new_report
+
+    # TODO
+    return new_report
