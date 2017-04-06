@@ -243,5 +243,34 @@ def merge_report_dicts(new_report, original_report):
     if not original_report:
         return new_report
 
-    # TODO
-    return new_report
+    return {
+        "duration": original_report["duration"] + new_report["duration"],
+        "features": original_report["features"] + new_report["features"],
+        "meta": _merge_meta(original_report["meta"], new_report["meta"]),
+    }
+
+
+def _merge_meta(original, new):
+    """
+    Merge meta dictionaries.
+    """
+    return {
+        "features": {
+            "total": original["features"]["total"] + new["features"]["total"],
+            "success": original["features"]["success"] + new["features"]["success"],
+            "failures": original["features"]["failures"] + new["features"]["failures"],
+        },
+        "scenarios": {
+            "total": original["scenarios"]["total"] + new["scenarios"]["total"],
+            "success": original["scenarios"]["success"] + new["scenarios"]["success"],
+            "failures": original["scenarios"]["failures"] + new["scenarios"]["failures"],
+        },
+        "steps": {
+            "total": original["steps"]["total"] + new["steps"]["total"],
+            "success": original["steps"]["success"] + new["steps"]["success"],
+            "failures": original["steps"]["failures"] + new["steps"]["failures"],
+            "skipped": original["steps"]["skipped"] + new["steps"]["skipped"],
+            "undefined": original["steps"]["undefined"] + new["steps"]["undefined"],
+        },
+        "is_success": original["is_success"] and new["is_success"],
+    }
