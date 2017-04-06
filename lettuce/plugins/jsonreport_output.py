@@ -26,7 +26,7 @@ def enable(filename=None, merge_reports=False):
             try:
                 with open(filename) as handle:
                     original_report = json.load(handle)
-            except IOError:
+            except (IOError, ValueError):
                 pass
         world._stopped = datetime.now()
         total_dict = total_result_to_dict(total)
