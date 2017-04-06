@@ -28,7 +28,6 @@ from django.test.utils import setup_test_environment, teardown_test_environment
 from lettuce import Runner
 from lettuce import registry
 from lettuce.core import SummaryTotalResults
-from lettuce.exceptions import LettuceRunnerError
 
 from lettuce.django import harvest_lettuces, get_server
 from lettuce.django.server import LettuceServerException
@@ -223,15 +222,13 @@ class Command(BaseCommand):
                                 tags=tags, failfast=failfast, auto_pdb=auto_pdb,
                                 smtp_queue=smtp_queue, merge_reports=options.get('merge_reports'))
 
-                result = runner.run()
+                result, failed = runner.run()
                 if app_module is not None:
                     registry.call_hook('after_each', 'app', app_module, result)
 
                 results.append(result)
                 if not result or result.steps != result.steps_passed:
                     failed = True
-        except LettuceRunnerError:
-            failed = True
 
         except Exception as e:
             failed = True

@@ -206,8 +206,4 @@ class Runner(object):
             total = TotalResult(results)
             total.output_format()
             call_hook('after', 'all', total)
-
-            if failed:
-                raise LettuceRunnerError("Test failed.")
-
-            return total
+            return total, failed
