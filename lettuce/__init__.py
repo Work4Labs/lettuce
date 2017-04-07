@@ -95,7 +95,7 @@ class Runner(object):
                  enable_subunit=False, subunit_filename=None,
                  enable_jsonreport=False, jsonreport_filename=None,
                  tags=None, failfast=False, auto_pdb=False,
-                 smtp_queue=None, root_dir=None):
+                 smtp_queue=None, root_dir=None, merge_reports=False):
 
         """ lettuce.Runner will try to find a terrain.py file and
         import it from within `base_path`
@@ -141,7 +141,7 @@ class Runner(object):
             subunit_output.enable(filename=subunit_filename)
 
         if enable_jsonreport:
-            jsonreport_output.enable(filename=jsonreport_filename)
+            jsonreport_output.enable(filename=jsonreport_filename, merge_reports=merge_reports)
 
         reload(output)
 
@@ -206,8 +206,4 @@ class Runner(object):
             total = TotalResult(results)
             total.output_format()
             call_hook('after', 'all', total)
-
-            if failed:
-                raise LettuceRunnerError("Test failed.")
-
-            return total
+            return total, failed
