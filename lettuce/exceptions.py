@@ -17,7 +17,7 @@
 import traceback
 import sys
 from lettuce.strings import utf8_string
-
+import six
 
 class NoDefinitionFound(Exception):
     """ Exception raised by lettuce.core.Step, when trying to solve a
@@ -29,8 +29,7 @@ class NoDefinitionFound(Exception):
     def __init__(self, step):
         self.step = step
 
-        error = filter(lambda x : 0 <= ord(x) <= 127,
-                       'The step r"%s" is not defined' % self.step.sentence)
+        error = [x for x in 'The step r"%s" is not defined' % self.step.sentence if 0 <= ord(x) <= 127]
         super(NoDefinitionFound, self).__init__(error)
 
 
@@ -49,9 +48,13 @@ class ReasonToFail(object):
         else:
             msg = exc.args[0] if exc.args else ''
 
-        if isinstance(msg, basestring):
+        if isinstance(msg, six.string_types):
             self.cause = utf8_string(msg)
-        self.traceback = utf8_string(traceback.format_exc(exc))
+        if six.PY2:
+            self.traceback = utf8_string(traceback.format_exc(exc))
+        if six.PY3:
+            self.traceback = utf8_string(traceback.format_exc())
+
 
 
 class LettuceSyntaxError(SyntaxError):

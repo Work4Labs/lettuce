@@ -18,11 +18,15 @@ from lettuce.registry import world
 from lettuce.registry import CALLBACK_REGISTRY
 world._set = True
 
-
+import six
 def absorb(thing, name=None):
-    if not isinstance(name, basestring):
-        name = thing.__name__
-
+    # py3: mod
+    if six.PY2:
+        if not isinstance(name, str):
+            name = thing.__name__
+    if six.PY3:
+        if not name:
+            name = thing.__name__
     setattr(world, name, thing)
     return thing
 

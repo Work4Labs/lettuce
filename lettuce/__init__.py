@@ -22,8 +22,15 @@ release = 'kryptonite'
 import os
 import sys
 import traceback
+# py3: mod
+import six
 try:
-    from imp import reload
+    # py3: mod
+    if six.PY2:
+        from imp import reload
+    if six.PY3:
+        from six.moves import reload_module as reload
+
 except ImportError:
     # python 2.5 fallback
     pass
@@ -70,8 +77,14 @@ __all__ = [
 ]
 
 try:
-    terrain = fs.FileSystem._import("terrain")
-    reload(terrain)
+    # py3: mod
+    if six.PY2:
+        terrain = fs.FileSystem._import("terrain")
+
+    if six.PY3:
+        import importlib
+        terrain = importlib.import_module("lettuce.terrain")
+    importlib.reload(terrain)
 except Exception as e:
     if not "No module named terrain" in str(e):
         string = 'Lettuce has tried to load the conventional environment ' \
@@ -95,7 +108,7 @@ class Runner(object):
                  enable_subunit=False, subunit_filename=None,
                  enable_jsonreport=False, jsonreport_filename=None,
                  tags=None, failfast=False, auto_pdb=False,
-                 smtp_queue=None, root_dir=None, merge_reports=False):
+                 smtp_queue=None, root_dir=None):
 
         """ lettuce.Runner will try to find a terrain.py file and
         import it from within `base_path`
@@ -111,7 +124,7 @@ class Runner(object):
         sys.path.insert(0, base_path)
         self.loader = fs.FeatureLoader(base_path, root_dir)
         self.verbosity = verbosity
-        self.scenarios = scenarios and map(int, scenarios.split(",")) or None
+        self.scenarios = scenarios and list(map(int, scenarios.split(","))) or None
         self.failfast = failfast
         if auto_pdb:
             autopdb.enable(self)
@@ -141,9 +154,9 @@ class Runner(object):
             subunit_output.enable(filename=subunit_filename)
 
         if enable_jsonreport:
-            jsonreport_output.enable(filename=jsonreport_filename, merge_reports=merge_reports)
+            jsonreport_output.enable(filename=jsonreport_filename)
 
-        reload(output)
+        importlib.reload(output)
 
         self.output = output
 
@@ -169,7 +182,8 @@ class Runner(object):
         try:
             self.loader.find_and_load_step_definitions()
         except StepLoadingError as e:
-            print "Error loading step definitions:\n", e
+            # py3: mod
+            print(("Error loading step definitions:\n", e))
             return
 
         call_hook('before', 'all')
@@ -187,16 +201,18 @@ class Runner(object):
         except exceptions.LettuceSyntaxError as e:
             sys.stderr.write(e.msg)
             failed = True
-        except exceptions.NoDefinitionFound, e:
+        # py3: mod
+        except exceptions.NoDefinitionFound as e:
             sys.stderr.write(e.msg)
             failed = True
         except:
             if not self.failfast:
                 e = sys.exc_info()[1]
-                print "Died with %s" % str(e)
+                # py3: mod
+                print(("Died with %s" % str(e)))
                 traceback.print_exc()
             else:
-                print
+                print()
                 print ("Lettuce aborted running any more tests "
                        "because was called with the `--failfast` option")
 
@@ -206,4 +222,8 @@ class Runner(object):
             total = TotalResult(results)
             total.output_format()
             call_hook('after', 'all', total)
-            return total, failed
+
+            if failed:
+                raise LettuceRunnerError("Test failed.")
+
+            return total

@@ -20,14 +20,25 @@ import threading
 import traceback
 
 from lettuce.exceptions import StepLoadingError
-
+import six
 world = threading.local()
 world._set = False
 
 
 def _function_matches(one, other):
-    return (os.path.abspath(one.func_code.co_filename) == os.path.abspath(other.func_code.co_filename) and
-            one.func_code.co_firstlineno == other.func_code.co_firstlineno)
+
+    if hasattr(one, 'func_code'):
+        one_func_code = one.__code__
+    else:
+        one_func_code = six.get_function_code(one)
+
+    if hasattr(other, 'func_code'):
+        other_func_code = other.__code__
+    else:
+        other_func_code = six.get_function_code(other)
+
+    return (os.path.abspath(one_func_code.co_filename) == os.path.abspath(other_func_code.co_filename) and
+            one_func_code.co_firstlineno == other_func_code.co_firstlineno)
 
 
 class CallbackDict(dict):
@@ -36,8 +47,8 @@ class CallbackDict(dict):
             self[where][when].append(function)
 
     def clear(self):
-        for name, action_dict in self.items():
-            for callback_list in action_dict.values():
+        for name, action_dict in list(self.items()):
+            for callback_list in list(action_dict.values()):
                 callback_list[:] = []
 
 class StepDict(dict):
@@ -80,7 +91,10 @@ class StepDict(dict):
         func = getattr(func, '__func__', func)
         sentence = getattr(func, '__doc__', None)
         if sentence is None:
-            sentence = func.func_name.replace('_', ' ')
+            if six.PY2:
+                sentence = func.__name__.replace('_', ' ')
+            if six.PY3:
+                sentence = func.__name__.replace('_', ' ')
             sentence = sentence[0].upper() + sentence[1:]
         return sentence
 
@@ -156,9 +170,13 @@ def call_hook(situation, kind, *args, **kw):
         try:
             callback(*args, **kw)
         except Exception as e:
-            print "=" * 1000
-            traceback.print_exc(e)
-            print
+            # py3: mod
+            print(("=" * 1000))
+            if six.PY2:
+                traceback.print_exc(e)
+            if six.PY3:
+                traceback.print_exc()
+            print()
             raise
 
 

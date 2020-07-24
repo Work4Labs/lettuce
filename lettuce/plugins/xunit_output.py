@@ -16,17 +16,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime, timedelta
-from lettuce.terrain import after, before
+from lettuce.terrain import after
+from lettuce.terrain import before
 from xml.dom import minidom
 from lettuce.strings import utf8_string
 
 
 def wrt_output(filename, content):
     f = open(filename, "w")
-    if isinstance(content, unicode):
+    if isinstance(content, str):
         content = content.encode('utf-8')
 
-    f.write(content)
+    f.write(content.decode('utf-8'))
     f.close()
 
 
@@ -39,12 +40,12 @@ def total_seconds(td):
 
 
 def enable(filename=None):
-    start = datetime.now()  # approximation
+
     doc = minidom.Document()
     root = doc.createElement("testsuite")
     root.setAttribute("name", "lettuce")
     root.setAttribute("hostname", "localhost")
-    root.setAttribute("timestamp", start.strftime("%Y-%m-%dT%H:%M:%S"))
+    root.setAttribute("timestamp", datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
     output_filename = filename or "lettucetests.xml"
 
     @before.each_step
@@ -58,7 +59,7 @@ def enable(filename=None):
             return
         
         name = getattr(parent, 'name', 'Background')    # Background sections are nameless
-        classname = u"%s : %s" % (parent.feature.name, name)
+        classname = "%s : %s" % (parent.feature.name, name)
         tc = doc.createElement("testcase")
         tc.setAttribute("classname", classname)
         tc.setAttribute("name", step.sentence)
@@ -69,8 +70,7 @@ def enable(filename=None):
 
         if not step.ran:
             skip = doc.createElement("skipped")
-            why = "ParentStepNotRun()" if step.has_definition else "UndefinedStep(%s)" % step.sentence
-            skip.setAttribute("type", why)
+            skip.setAttribute("type", "UndefinedStep(%s)" % step.sentence)
             tc.appendChild(skip)
 
         if step.failed:
@@ -94,7 +94,7 @@ def enable(filename=None):
         classname = "%s : %s" % (scenario.feature.name, scenario.name)
         tc = doc.createElement("testcase")
         tc.setAttribute("classname", classname)
-        tc.setAttribute("name", u'| %s |' % u' | '.join(outline.values()))
+        tc.setAttribute("name", '| %s |' % ' | '.join(list(outline.values())))
         tc.setAttribute("time", str(total_seconds((datetime.now() - scenario.outline_started))))
 
         for reason_to_fail in reasons_to_fail:
@@ -111,6 +111,6 @@ def enable(filename=None):
         root.setAttribute("tests", str(total.steps))
         root.setAttribute("failures", str(total.steps_failed))
         root.setAttribute("errors", '0')
-        root.setAttribute("time", str(total_seconds(datetime.now() - start)))
+        root.setAttribute("time", '0')
         doc.appendChild(root)
         write_xml_doc(output_filename, doc)

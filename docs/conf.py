@@ -26,7 +26,7 @@ sys.path.append(os.path.join(here, '_ext'))
 
 from lettuce import version, release
 
-copyright = u'Gabriel Falcão <gabriel@nacaolivre.org>'
+copyright = 'Gabriel Falcão <gabriel@nacaolivre.org>'
 
 extensions = [
     'sphinx.ext.autodoc',

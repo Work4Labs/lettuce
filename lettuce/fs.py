@@ -26,6 +26,13 @@ from functools import wraps
 from glob import glob
 from os.path import abspath, join, dirname, curdir, exists
 
+# py3: mod
+import six
+import importlib
+if six.PY2:
+    from imp import reload
+if six.PY3:
+    from six.moves import reload_module as reload
 
 class FeatureLoader(object):
     """Loader class responsible for findind features and step
@@ -64,7 +71,7 @@ class FeatureLoader(object):
                               .format(e, filename)),
                     raise e
 
-            reload(module)  # always take fresh meat :)
+            importlib.reload(module)  # always take fresh meat :)
             sys.path.remove(root)
 
     def find_feature_files(self):

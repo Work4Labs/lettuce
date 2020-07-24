@@ -1,5 +1,5 @@
 import sys
-
+import six
 
 class Reporter(object):
     def __init__(self):
@@ -7,8 +7,12 @@ class Reporter(object):
         self.scenarios_and_its_fails = {}
 
     def wrt(self, what):
-        if isinstance(what, unicode):
-            what = what.encode('utf-8')
+        if six.PY2:
+            if isinstance(what, str):
+                what = what.encode('utf-8')
+        if six.PY3:
+            if isinstance(what, bytes):
+                what = what.decode('utf-8')
         sys.stdout.write(what)
 
     def store_failed_step(self, step):
@@ -28,7 +32,10 @@ class Reporter(object):
             self.wrt("\n")
             for scenario in self.failed_scenarios:
                 reason = self.scenarios_and_its_fails[scenario]
-                self.wrt(unicode(reason.step))
+                if six.PY2:
+                    self.wrt(str(reason.step))
+                if six.PY3:
+                    self.wrt(str(reason.step))
                 self.wrt("\n")
                 self.wrt(reason.traceback)
 

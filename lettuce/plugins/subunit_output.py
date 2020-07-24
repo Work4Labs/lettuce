@@ -14,10 +14,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+# py3:mod
+import six
 import datetime
 import sys
-from StringIO import StringIO
+# py3:mod
+from six.moves import StringIO
 
 from lettuce.terrain import before, after
 
@@ -124,11 +126,11 @@ def enable(filename=None):
         test_id = get_test_id(step.scenario)
 
         if step.passed:
-            marker = u'✔'
+            marker = '✔'
         elif not step.defined_at:
-            marker = u'?'
+            marker = '?'
         elif step.failed:
-            marker = u'❌'
+            marker = '❌'
 
             try:
                 streamresult.status(test_id=test_id,
@@ -139,11 +141,11 @@ def enable(filename=None):
                 pass
 
         elif not step.ran:
-            marker = u' '
+            marker = ' '
         else:
             raise AssertionError("Internal error")
 
-        steps = u'{marker} {sentence}\n'.format(
+        steps = '{marker} {sentence}\n'.format(
             marker=marker,
             sentence=step.sentence)
         streamresult.status(test_id=test_id,

@@ -5,7 +5,7 @@ from lettuce import world
 from lettuce.terrain import after, before
 
 
-def enable(filename=None, merge_reports=False):
+def enable(filename=None):
     filename = filename or "lettucetests.json"
 
     @before.all
@@ -21,16 +21,8 @@ def enable(filename=None, merge_reports=False):
         This callback is called after all the features are
         ran.
         """
-        original_report = {}
-        if merge_reports:
-            try:
-                with open(filename) as handle:
-                    original_report = json.load(handle)
-            except (IOError, ValueError):
-                pass
         world._stopped = datetime.now()
         total_dict = total_result_to_dict(total)
-        total_dict = merge_report_dicts(total_dict, original_report)
         with open(filename, "w") as handle:
             json.dump(total_dict, handle)
 
@@ -234,43 +226,3 @@ def _get_duration(element):
     :param element:          either a step or a scenario or a feature
     """
     return (element._stopped - element._started).seconds if hasattr(element, '_started') else None
-
-
-def merge_report_dicts(new_report, original_report):
-    """
-    Merge report dictionaries, useful when running features from several apps.
-    """
-    if not original_report:
-        return new_report
-
-    return {
-        "duration": original_report["duration"] + new_report["duration"],
-        "features": original_report["features"] + new_report["features"],
-        "meta": _merge_meta(original_report["meta"], new_report["meta"]),
-    }
-
-
-def _merge_meta(original, new):
-    """
-    Merge meta dictionaries.
-    """
-    return {
-        "features": {
-            "total": original["features"]["total"] + new["features"]["total"],
-            "success": original["features"]["success"] + new["features"]["success"],
-            "failures": original["features"]["failures"] + new["features"]["failures"],
-        },
-        "scenarios": {
-            "total": original["scenarios"]["total"] + new["scenarios"]["total"],
-            "success": original["scenarios"]["success"] + new["scenarios"]["success"],
-            "failures": original["scenarios"]["failures"] + new["scenarios"]["failures"],
-        },
-        "steps": {
-            "total": original["steps"]["total"] + new["steps"]["total"],
-            "success": original["steps"]["success"] + new["steps"]["success"],
-            "failures": original["steps"]["failures"] + new["steps"]["failures"],
-            "skipped": original["steps"]["skipped"] + new["steps"]["skipped"],
-            "undefined": original["steps"]["undefined"] + new["steps"]["undefined"],
-        },
-        "is_success": original["is_success"] and new["is_success"],
-    }

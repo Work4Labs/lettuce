@@ -28,6 +28,7 @@ from django.test.utils import setup_test_environment, teardown_test_environment
 from lettuce import Runner
 from lettuce import registry
 from lettuce.core import SummaryTotalResults
+from lettuce.exceptions import LettuceRunnerError
 
 from lettuce.django import harvest_lettuces, get_server
 from lettuce.django.server import LettuceServerException
@@ -37,7 +38,8 @@ DJANGO_VERSION = StrictVersion(django.get_version())
 
 
 class Command(BaseCommand):
-    help = u'Run lettuce tests all along installed apps'
+    help = 'Run lettuce tests all along installed apps'
+    args = '[PATH to feature file or folder]'
 
     if DJANGO_VERSION < StrictVersion('1.7'):
         requires_model_validation = False
@@ -46,7 +48,6 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.set_defaults(verbosity=3)  # default verbosity is 3
-        parser.add_argument('features', nargs='*', help='A list of features to run (files or folders)')
         parser.add_argument(
             '-a', '--apps', action='store', dest='apps', default='',
             help='Run ONLY the django apps that are listed here. Comma separated'
@@ -123,10 +124,6 @@ class Command(BaseCommand):
             "--pdb", dest="auto_pdb", default=False, action="store_true",
             help='Launches an interactive debugger upon error'
         )
-        parser.add_argument(
-            "--merge-reports", dest="merge_reports", default=False, action="store_true",
-            help="Merge reports, useful when running features from several apps."
-        )
         if DJANGO_VERSION < StrictVersion('1.7'):
             # Django 1.7 introduces the --no-color flag. We must add the flag
             # to be compatible with older django versions
@@ -135,14 +132,14 @@ class Command(BaseCommand):
                 default=False, help="Don't colorize the command output."
             )
 
-    def get_paths(self, feature_paths, apps_to_run, apps_to_avoid):
-        if feature_paths:
-            for path, exists in zip(feature_paths, map(os.path.exists, feature_paths)):
+    def get_paths(self, args, apps_to_run, apps_to_avoid):
+        if args:
+            for path, exists in zip(args, list(map(os.path.exists, args))):
                 if not exists:
                     sys.stderr.write("You passed the path '%s', but it does not exist.\n" % path)
                     sys.exit(1)
             else:
-                paths = feature_paths
+                paths = args
         else:
             paths = harvest_lettuces(apps_to_run, apps_to_avoid)  # list of tuples with (path, app_module)
 
@@ -186,7 +183,7 @@ class Command(BaseCommand):
 
         settings.DEBUG = options.get('debug', False)
 
-        paths = self.get_paths(options['features'], apps_to_run, apps_to_avoid)
+        paths = self.get_paths(args, apps_to_run, apps_to_avoid)
         server = get_server(port=options['port'], threading=threading)
 
         if run_server:
@@ -220,15 +217,17 @@ class Command(BaseCommand):
                                 subunit_filename=options.get('subunit_file'),
                                 jsonreport_filename=options.get('jsonreport_file'),
                                 tags=tags, failfast=failfast, auto_pdb=auto_pdb,
-                                smtp_queue=smtp_queue, merge_reports=options.get('merge_reports'))
+                                smtp_queue=smtp_queue)
 
-                result, failed = runner.run()
+                result = runner.run()
                 if app_module is not None:
                     registry.call_hook('after_each', 'app', app_module, result)
 
                 results.append(result)
                 if not result or result.steps != result.steps_passed:
                     failed = True
+        except LettuceRunnerError:
+            failed = True
 
         except Exception as e:
             failed = True
