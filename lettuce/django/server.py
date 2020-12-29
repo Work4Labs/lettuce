@@ -30,7 +30,6 @@ if six.PY2:
 if six.PY3:
     import http.client as httplib
     import urllib.parse as urlparse
-    str = lambda x: str(x)
 
 import tempfile
 import multiprocessing
